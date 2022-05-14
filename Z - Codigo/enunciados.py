@@ -1,14 +1,13 @@
 from posixpath import split
-import string
 #a1
-def redondeo_hora(str: string):
-    return str.split(':')[0]
+def redondeo_hora(cadena: str):
+    return cadena.split(':')[0]
 
 print(redondeo_hora('12:48'))
 
 #a2
-def rango_edad(str: string):
-    datos = str.split(' ')
+def rango_edad(cadena: str):
+    datos = cadena.split(' ')
     return tuple((-1,-1)) if len(datos) < 2 else \
            ( tuple((int(datos[1]),int(datos[3]))) if len(datos) > 4 \
            else tuple((int(datos[2]),100)) )
@@ -17,8 +16,8 @@ for c in  ['DE 25 A 29 AÑOS', 'DESCONOCIDA', 'MAYOR DE 74 AÑOS']:
     print(c, " -> ", rango_edad(c))
 
 #a3
-def lesividad(str: string):
-    return int(str) if str else 0
+def lesividad(cadena: str):
+    return int(cadena) if cadena else 0
 
 for c in  ['01', '02', '14', '', '77']:
     print(c, " -> ", lesividad(c))
@@ -41,7 +40,7 @@ La edad, tal como viene y en  su rango:
 DE 55 A 59 AÑOS
 (55, 59)
 '''
-def presentar_operaciones_basicas(cadena: string):
+def presentar_operaciones_basicas(cadena: str):
     print("La cadena de entrada: ")
     print(cadena, end="\n\n")
 
@@ -65,7 +64,7 @@ linea_9 = "2020S000073;01/01/2020;18:48;AVDA. PIO XII;81;CHAMARTÍN;Atropello a 
 presentar_operaciones_basicas(linea_9)
 
 # [18, 'CHAMARTÍN', 'Despejado', (55, 59), 14]
-def extraer_datos(cadena: string):
+def extraer_datos(cadena: str):
     lista = cadena.split(';')
     return [redondeo_hora(lista[2]),lista[5],lista[7],\
             rango_edad(lista[10]),lista[12]]
