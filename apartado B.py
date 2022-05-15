@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 
 def cargar_cabecera(fichero: str):
    df = pd.read_csv(fichero, encoding='iso-8859-1', nrows=0, sep=';')
