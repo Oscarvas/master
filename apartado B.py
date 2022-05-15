@@ -9,14 +9,38 @@ def cargar_cabecera(fichero: str):
    return ['' if 'Unname' in col else col for col in df.columns ]
             
 cabecera = cargar_cabecera("2020_Accidentalidad.csv")
-print(cabecera)
+#print(cabecera)
 ###############
 
+def rango_edad(cadena: str):
+    datos = cadena.split(' ')
+    return tuple((-1,-1)) if len(datos) < 2 else \
+           ( tuple((int(datos[1]),int(datos[3]))) if len(datos) > 4 \
+           else tuple((int(datos[2])+1,100)) )
 
+def redondeo_hora(cadena: str):
+    return int(cadena.split(':')[0])           
+
+def lesividad(cadena: str):
+    return int(cadena) if cadena else 0
+# 
 def cargar_lineas(fichero: str, inicio=1, fin=10):
-    df = pd.read_csv(fichero, encoding='iso-8859-1', nrows=fin, sep=';')
-    return df[['HORA','DISTRITO','ESTADO METEREOLÓGICO','RANGO DE EDAD','LESIVIDAD*']][inicio:fin]
+    df = pd.read_csv(fichero, encoding='iso-8859-1', nrows=fin, sep=';', na_values='0')
+    df['HORA'] = df['HORA'].apply(redondeo_hora)
+    df['RANGO DE EDAD'] = df['RANGO DE EDAD'].apply(rango_edad)
+    
+    # quitamos los NaN
+    df = df.fillna(0)
+    df['LESIVIDAD*'] = df['LESIVIDAD*'].apply(lesividad)
 
+    aux = df.loc[inicio-1:fin-1,['HORA','DISTRITO','ESTADO METEREOLÓGICO','RANGO DE EDAD','LESIVIDAD*']].values.tolist()
+    return aux
+
+lineas_lista = cargar_lineas("2020_Accidentalidad.csv", 1, 4)
+
+for linea in lineas_lista:
+    print(linea)
+    
 
 '''
 [23, 'RETIRO', 'Despejado', (25, 29), 0]
@@ -41,11 +65,7 @@ hora2-distrito5-estado7-rango10-lesiv12
 [18, 'CHAMARTÍN', 'Despejado', (18, 20), 7]
 [18, 'ARGANZUELA', '', (55, 59), 14]
 '''
-lineas_lista = cargar_lineas("2020_Accidentalidad.csv", 1, 4)
 
-for linea in lineas_lista:
-    print(linea)
-    
 # Si no decimos qué líneas nos interesa, se cargarán las diez primeras.
 # (Esto puede hacerse con dos parámetros por defecto.)
 
