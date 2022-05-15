@@ -25,7 +25,7 @@ def lesividad(cadena: str):
     return int(cadena) if cadena else 0
 # 
 def cargar_lineas(fichero: str, inicio=1, fin=10):
-    df = pd.read_csv(fichero, encoding='iso-8859-1', nrows=fin, sep=';', na_values='0')
+    df = pd.read_csv(fichero, encoding='iso-8859-1', nrows=fin, sep=';')
     df['HORA'] = df['HORA'].apply(redondeo_hora)
     df['RANGO DE EDAD'] = df['RANGO DE EDAD'].apply(rango_edad)
     
