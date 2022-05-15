@@ -39,8 +39,8 @@ def cargar_lineas(fichero: str, inicio=1, fin=10):
 
 lineas_lista = cargar_lineas("2020_Accidentalidad.csv", 1, 4)
 
-for linea in lineas_lista:
-    print(linea)
+#for linea in lineas_lista:
+# print(linea)
     
 
 '''
@@ -74,5 +74,15 @@ print()
 
 lineas_lista = cargar_lineas("2020_Accidentalidad.csv")
 
-for linea in lineas_lista:
+#for linea in lineas_lista:
+# print(linea)
+
+def cargar_datos(fichero: str):
+    with open(fichero,'rb') as file:
+        total_filas = len(file.readlines())
+        return cargar_lineas("2020_Accidentalidad.csv",1, total_filas)
+
+full_data = cargar_datos("2020_Accidentalidad.csv")
+
+for linea in full_data:
     print(linea)
