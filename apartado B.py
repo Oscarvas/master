@@ -93,12 +93,17 @@ datos_lista = cargar_datos("2020_Accidentalidad.csv")
 
 def totales(lista: list):
     df = pd.DataFrame(lista, columns=['hora','distrito','clima','rango','lesividad'])
-    print(df)
-    pass
+    return df
 
-totales(datos_lista)
+    df_dos = df.groupby(['rango'])
+totales(datos_lista).groupby(['rango'])
 
 '''total_accidentes_por_edades = totales(datos_lista)
 
 for k, e in total_accidentes_por_edades.items():
     print(k, e)'''
+
+def cargar_dataframe_v0(fichero: str):
+    df = pd.read_csv(fichero, encoding='iso-8859-1', sep=';', usecols=['HORA','DISTRITO','RANGO DE EDAD','LESIVIDAD*'])
+    return df
+
