@@ -30,7 +30,8 @@ def cargar_lineas(fichero: str, inicio=1, fin=10):
     df['RANGO DE EDAD'] = df['RANGO DE EDAD'].apply(rango_edad)
     
     # quitamos los NaN
-    df = df.fillna(0)
+    df['LESIVIDAD*'] = df['LESIVIDAD*'] .fillna(0)
+    df['ESTADO METEREOLÓGICO'] = df['ESTADO METEREOLÓGICO'] .fillna('')
     df['LESIVIDAD*'] = df['LESIVIDAD*'].apply(lesividad)
 
     aux = df.loc[inicio-1:fin-1,['HORA','DISTRITO','ESTADO METEREOLÓGICO','RANGO DE EDAD','LESIVIDAD*']].values.tolist()
