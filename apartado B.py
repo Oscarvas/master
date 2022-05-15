@@ -80,9 +80,25 @@ lineas_lista = cargar_lineas("2020_Accidentalidad.csv")
 def cargar_datos(fichero: str):
     with open(fichero,'rb') as file:
         total_filas = len(file.readlines())
-        return cargar_lineas("2020_Accidentalidad.csv",1, total_filas)
+    return cargar_lineas("2020_Accidentalidad.csv",1, total_filas)
 
-full_data = cargar_datos("2020_Accidentalidad.csv")
+datos_lista = cargar_datos("2020_Accidentalidad.csv")
 
-for linea in full_data:
-    print(linea)
+'''for linea in full_data:
+    print(linea)'''
+
+
+### apartado C
+# realestate.groupby(['zip','baths']).size().unstack()
+
+def totales(lista: list):
+    df = pd.DataFrame(lista, columns=['hora','distrito','clima','rango','lesividad'])
+    print(df)
+    pass
+
+totales(datos_lista)
+
+'''total_accidentes_por_edades = totales(datos_lista)
+
+for k, e in total_accidentes_por_edades.items():
+    print(k, e)'''
