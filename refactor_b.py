@@ -67,5 +67,39 @@ def totales(lista: list):
 
 total_accidentes_por_edades = totales(datos_lista)
 
-for k, e in total_accidentes_por_edades.items():
-    print(k, e)
+# for k, e in total_accidentes_por_edades.items():
+#     print(k, e)
+
+def totales_mortales(lista: list):
+    diccionario = dict()
+    mortales = [4] # solo hay 1 código para lesividad mortal
+
+    for fila in lista:
+        if fila[3] not in diccionario:
+            valor = [1,0]
+            if fila[4] in mortales:
+                valor[1] = 1
+            diccionario[fila[3]] = tuple(valor)
+        else:
+            valor = list(diccionario.get(fila[3]) )
+            valor[0] += 1
+            if fila[4] in mortales:
+                valor[1] += 1
+            diccionario[fila[3]] = tuple(valor)
+    return diccionario.items()
+
+# Prueba de funcionamiento:
+
+total_accidentes_y_muertes_por_edades = totales_mortales(datos_lista)
+
+for edades, dos_totales in total_accidentes_y_muertes_por_edades:
+    print(edades, dos_totales)
+    
+print()
+
+# Total accidentes mortales / 1000 accidentes, por rangos de edad:
+
+tasa_accidentes_mortales_por_mil = [(k, m*1000/n) for k, (n, m) in total_accidentes_y_muertes_por_edades]
+                                    
+for k_tasa  in tasa_accidentes_mortales_por_mil:
+    print(k_tasa)  
