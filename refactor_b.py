@@ -1,9 +1,8 @@
 import csv
 import itertools
-import readline
+from apartado_A import redondeo_hora,rango_edad,lesividad
 
 #    return ['' if 'Unname' in col else col for col in df.columns ]
-# reader = csv.DictReader(archivo)
 def cargar_cabecera(fichero: str):
     with open(fichero, encoding='iso-8859-1', newline='') as archivo:
         cabecera = archivo.readline().strip()
@@ -16,12 +15,22 @@ cabecera = cargar_cabecera("2020_Accidentalidad.csv")
 def cargar_lineas(fichero: str, inicio=1, fin=10):
 
     with open(fichero, encoding='iso-8859-1', newline='') as archivo:
-        reader = csv.DictReader(itertools.islice(archivo, inicio-1, fin+1),delimiter=';')
+        accidentalidad = csv.DictReader(archivo,delimiter=';')
         
-        for lines in reader:
-            print(lines)
+        lista = [ [
+                redondeo_hora(fila['HORA']), \
+                fila['DISTRITO'], \
+                fila['ESTADO METEREOLÓGICO'], \
+                rango_edad(fila['RANGO DE EDAD']), \
+                lesividad(fila['LESIVIDAD*'])] \
+                for fila in itertools.islice(accidentalidad, inicio-1, fin)]
 
-    return reader
+        return lista
+
+    
+    # archivo.seek(inicio)
+    # data = fin.read(fin - inicio)
+    # (next(itertools.islice(csv.reader(archivo), inicio, fin)))
 
     # df = pd.read_csv(fichero, encoding='iso-8859-1', nrows=fin, sep=';')
     # df['HORA'] = df['HORA'].apply(redondeo_hora)
