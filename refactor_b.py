@@ -92,14 +92,14 @@ def totales_mortales(lista: list):
 
 total_accidentes_y_muertes_por_edades = totales_mortales(datos_lista)
 
-for edades, dos_totales in total_accidentes_y_muertes_por_edades:
-    print(edades, dos_totales)
+# for edades, dos_totales in total_accidentes_y_muertes_por_edades:
+#     print(edades, dos_totales)
     
-print()
+# print()
 
 # Total accidentes mortales / 1000 accidentes, por rangos de edad:
 
 tasa_accidentes_mortales_por_mil = [(k, m*1000/n) for k, (n, m) in total_accidentes_y_muertes_por_edades]
                                     
-for k_tasa  in tasa_accidentes_mortales_por_mil:
-    print(k_tasa)  
+# for k_tasa  in tasa_accidentes_mortales_por_mil:
+#     print(k_tasa)  
