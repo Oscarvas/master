@@ -43,30 +43,29 @@ def cargar_lineas(fichero: str, inicio=1, fin=10):
 
     # aux = df.loc[inicio-1:fin-1,['HORA','DISTRITO','ESTADO METEREOLÓGICO','RANGO DE EDAD','LESIVIDAD*']].values.tolist()
 
-lineas_lista = cargar_lineas("2020_Accidentalidad.csv", 1, 4)
+def cargar_datos(fichero: str):
+    with open(fichero,'rb') as file:
+        total_filas = len(file.readlines())
+    return cargar_lineas("2020_Accidentalidad.csv",1, total_filas)
 
-for linea in lineas_lista:
-    print(linea)
+datos_lista = cargar_datos("2020_Accidentalidad.csv")
 
-# [23, 'RETIRO', 'Despejado', (25, 29), 0]
-# [22, 'MONCLOA-ARAVACA', 'Despejado', (21, 24), 6]
-# [20, 'FUENCARRAL-EL PARDO', 'Despejado', (45, 49), 14]
-# [20, 'FUENCARRAL-EL PARDO', 'Despejado', (25, 29), 7]
+# for linea in datos_lista:
+#     print(linea)   
 
-print()
+def totales(lista: list):
+    diccionario = dict()
 
-lineas_lista = cargar_lineas("2020_Accidentalidad.csv")
+    for fila in lista:
+        if fila[3] not in diccionario:
+            diccionario[fila[3]] = 1
+        else:
+            diccionario[fila[3]] += 1
+    return diccionario
 
-for linea in lineas_lista:
-    print(linea)
+# Prueba de funcionamiento:
 
-# [23, 'RETIRO', 'Despejado', (25, 29), 0]
-# [22, 'MONCLOA-ARAVACA', 'Despejado', (21, 24), 6]
-# [20, 'FUENCARRAL-EL PARDO', 'Despejado', (45, 49), 14]
-# [20, 'FUENCARRAL-EL PARDO', 'Despejado', (25, 29), 7]
-# [19, 'CENTRO', 'Despejado', (-1, -1), 0]
-# [19, 'CARABANCHEL', 'Despejado', (-1, -1), 14]
-# [19, 'CARABANCHEL', 'Despejado', (21, 24), 2]
-# [18, 'CHAMARTÍN', 'Despejado', (55, 59), 14]
-# [18, 'CHAMARTÍN', 'Despejado', (18, 20), 7]
-# [18, 'ARGANZUELA', '', (55, 59), 14]
+total_accidentes_por_edades = totales(datos_lista)
+
+for k, e in total_accidentes_por_edades.items():
+    print(k, e)
