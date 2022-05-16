@@ -103,3 +103,53 @@ tasa_accidentes_mortales_por_mil = [(k, m*1000/n) for k, (n, m) in total_acciden
                                     
 # for k_tasa  in tasa_accidentes_mortales_por_mil:
 #     print(k_tasa)  
+
+# 0 <= datos_lista['hora'] <= 23
+# por tanto, los impares se agrupan con el par anterior
+def totales_mortales_por_horario(lista: list):
+    diccionario = dict()
+    lesividad_mortal = [4]
+
+    for dato in lista:
+        aux = int(dato[0])
+        if aux % 2: # 0->Par->false. Aqui entra si es impar
+            aux -= 1
+
+        if aux not in diccionario:
+            valor = [1,0]
+            if dato[4] in lesividad_mortal:
+                valor[1] = 1
+        else:
+            valor = diccionario.get(aux)
+            valor[0] += 1
+            if dato[4] in lesividad_mortal:
+                valor[1] += 1        
+        diccionario[aux] = valor
+
+    mortales_hora = diccionario.items()
+    mortales_hora = [ tuple([ accidente[0], (accidente[1][1]/accidente[1][0])*1000 ]) for accidente in mortales_hora]
+
+    return sorted(mortales_hora, key=lambda x: x[0])
+
+def emparejar_abcisas(lista: list):
+    return [ tuple([str(tuple([acc[0],acc[0]+2])),acc[1]]) for acc in lista]
+
+
+tasas_accidentes_y_muertes_por_horario = totales_mortales_por_horario(datos_lista)
+
+print(tasas_accidentes_y_muertes_por_horario)
+
+print()
+
+datos_para_grafica = emparejar_abcisas(tasas_accidentes_y_muertes_por_horario)
+
+print(datos_para_grafica)
+
+# [(0, 1.9230769230769231), (2, 4.178272980501393), (4, 1.949317738791423), (6, 0.8635578583765112), 
+# (8, 1.1415525114155252), (10, 1.5337423312883436), (12, 0.8234971177600878), (14, 1.112099644128114),
+#  (16, 0.5351886540005352), (18, 0.4287245444801715), (20, 1.1999040076793857), (22, 1.187178472497032)]
+
+# [('(0, 2)', 1.9230769230769231), ('(2, 4)', 4.178272980501393), ('(4, 6)', 1.949317738791423), 
+# ('(6, 8)', 0.8635578583765112), ('(8, 10)', 1.1415525114155252), ('(10, 12)', 1.5337423312883436), 
+# ('(12, 14)', 0.8234971177600878), ('(14, 16)', 1.112099644128114), ('(16, 18)', 0.5351886540005352), 
+# ('(18, 20)', 0.4287245444801715), ('(20, 22)', 1.1999040076793857), ('(22, 24)', 1.187178472497032)]
